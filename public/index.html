@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الإجابة التعليمية - التعليم الثانوي الجزائري</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>📚 منصة الإجابة التعليمية الذكية</h1>
+                <p>للتعليم الثانوي الجزائري وفق المنهاج الرسمي</p>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <a href="/" class="nav-link active">
+                🔍 طلب الإجابات
+            </a>
+            <a href="/questions" class="nav-link">
+                ✏️ إنشاء أسئلة
+            </a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Input Section -->
+            <section class="input-section">
+                <!-- Step 1: Level Selection -->
+                <div class="form-group">
+                    <label for="level">📝 اختر المستوى الدراسي:</label>
+                    <div class="level-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="level" value="1st" onchange="handleLevelChange()">
+                            السنة الأولى ثانوي
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="level" value="2nd" onchange="handleLevelChange()">
+                            السنة الثانية ثانوي
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="level" value="3rd" onchange="handleLevelChange()">
+                            السنة الثالثة ثانوي (بكالوريا)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 2: Branch Selection (for 2nd and 3rd year) -->
+                <div id="branchContainer" class="form-group" style="display:none;">
+                    <label for="branch">🎓 اختر الشعبة:</label>
+                    <div id="branchSelector" class="branch-selector">
+                        <!-- Branches will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Subject Selection -->
+                <div id="subjectContainer" class="form-group" style="display:none;">
+                    <label for="subject">📖 اختر المادة:</label>
+                    <select id="subject" class="subject-select">
+                        <option value="">-- اختر المادة --</option>
+                    </select>
+                </div>
+
+                <!-- Step 4: Question Input -->
+                <div id="questionContainer" class="form-group" style="display:none;">
+                    <label for="question">❓ اكتب سؤالك:</label>
+                    <textarea 
+                        id="question" 
+                        placeholder="اكتب السؤال هنا... (يجب أن يكون ضمن المقرر الدراسي)"
+                        rows="5"
+                        required></textarea>
+                    <small>⚠️ السؤال يجب أن يكون ضمن المقرر الدراسي الرسمي الجزائري</small>
+                </div>
+
+                <button id="submitBtn" class="submit-btn" style="display:none;">
+                    <span class="btn-text">إرسال السؤال</span>
+                    <span class="btn-loader" style="display:none;">⏳</span>
+                </button>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <h4>ℹ️ معلومات مهمة:</h4>
+                    <ul>
+                        <li>✅ جميع الإجابات من المنهاج الرسمي الجزائري فقط</li>
+                        <li>✅ لا نقدم معلومات خارج الدروس</li>
+                        <li>✅ إجابات دقيقة وتربوية مبسطة</li>
+                        <li>⚠️ الأسئلة خارج المنهاج سيتم رفضها</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Response Section -->
+            <section class="response-section" id="responseSection" style="display:none;">
+                <div class="response-header">
+                    <h3>✅ الإجابة</h3>
+                    <button class="close-btn" onclick="closeResponse()">✕</button>
+                </div>
+                <div id="responseContent" class="response-content">
+                    <!-- Response will be inserted here -->
+                </div>
+                <div class="response-actions">
+                    <button onclick="copyResponse()" class="action-btn">📋 نسخ الإجابة</button>
+                    <button onclick="newQuestion()" class="action-btn primary">➕ سؤال جديد</button>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="errorSection" style="display:none;">
+                <div class="error-header">
+                    <h3>⚠️ تنبيه</h3>
+                    <button class="close-btn" onclick="closeError()">✕</button>
+                </div>
+                <div id="errorContent" class="error-content">
+                    <!-- Error will be inserted here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🏫 منصة تعليمية موثوقة تتبع المنهاج الرسمي للتعليم الثانوي الجزائري</p>
+            <p>© 2025 جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <script src="curriculum.json"></script>
+    <script src="script.js"></script>
+</body>
+</html>

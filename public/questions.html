@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشئ الأسئلة - منصة التعليم الجزائرية</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>✏️ منشئ الأسئلة الذكية</h1>
+                <p>إنشاء أسئلة متعددة الخيارات للفروض والاختبارات</p>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <a href="/" class="nav-link">
+                🔍 طلب الإجابات
+            </a>
+            <a href="/questions" class="nav-link active">
+                ✏️ إنشاء أسئلة
+            </a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Questions Creation Section -->
+            <section id="questions-section" class="input-section">
+                <div class="form-group">
+                    <label>📝 نوع المستخدم:</label>
+                    <div class="user-type-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="userType" value="teacher" onchange="handleUserTypeChange()">
+                            معلم (إنشاء أسئلة للفروض/الاختبارات)
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="userType" value="student" onchange="handleUserTypeChange()">
+                            تلميذ (ممارسة وتدرب)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Level Selection -->
+                <div class="form-group">
+                    <label>📚 اختر المستوى الدراسي:</label>
+                    <div class="level-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="qLevel" value="1st" onchange="handleQLevelChange()">
+                            السنة الأولى ثانوي
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="qLevel" value="2nd" onchange="handleQLevelChange()">
+                            السنة الثانية ثانوي
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="qLevel" value="3rd" onchange="handleQLevelChange()">
+                            السنة الثالثة ثانوي
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Branch Selection (for 2nd and 3rd year) -->
+                <div id="qBranchContainer" class="form-group" style="display:none;">
+                    <label>🎓 اختر الشعبة:</label>
+                    <div id="qBranchSelector" class="branch-selector">
+                        <!-- Branches will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Subject Selection -->
+                <div id="qSubjectContainer" class="form-group" style="display:none;">
+                    <label>📖 اختر المادة:</label>
+                    <select id="qSubject" class="subject-select" onchange="handleSubjectChange()">
+                        <option value="">-- اختر المادة --</option>
+                    </select>
+                </div>
+
+                <!-- Question Count -->
+                <div id="qCountContainer" class="form-group" style="display:none;">
+                    <label>❓ عدد الأسئلة المطلوبة:</label>
+                    <div class="input-group">
+                        <input type="number" id="qCount" min="1" max="10" value="5" class="number-input">
+                        <span class="input-hint">من 1 إلى 10 أسئلة</span>
+                    </div>
+                </div>
+
+                <!-- Difficulty Level -->
+                <div id="qDifficultyContainer" class="form-group" style="display:none;">
+                    <label>⚡ مستوى الصعوبة:</label>
+                    <div class="difficulty-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="easy">
+                            سهل
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="medium" checked>
+                            متوسط
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="hard">
+                            صعب
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question Type -->
+                <div id="qTypeContainer" class="form-group" style="display:none;">
+                    <label>🎯 نوع الأسئلة:</label>
+                    <div class="type-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="qType" value="mcq" checked>
+                            متعددة الخيارات
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="qType" value="truefalse">
+                            صحيح/خاطئ
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="qType" value="mixed">
+                            مختلط
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Special Options for Teachers -->
+                <div id="teacherOptions" style="display:none;">
+                    <div class="form-group">
+                        <label>🔧 خيارات إضافية للمعلم:</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="includeAnswerKey" checked>
+                                إضافة مفتاح الإجابات
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="includeSolutions" checked>
+                                إضافة الحلول والشروحات
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="includeMarkingScheme">
+                                إضافة سلم التقييم
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="generateQuestionsBtn" class="submit-btn" style="display:none;">
+                    <span class="btn-text">إنشاء الأسئلة</span>
+                    <span class="btn-loader" style="display:none;">⏳</span>
+                </button>
+            </section>
+
+            <!-- Questions Output Section -->
+            <section id="questions-output" class="output-section" style="display:none;">
+                <div class="output-header">
+                    <h3>📋 الأسئلة المُنشأة</h3>
+                    <button class="close-btn" onclick="closeQuestionsOutput()">✕</button>
+                </div>
+                <div id="questionsContent" class="output-content">
+                    <!-- Questions will be inserted here -->
+                </div>
+                <div class="output-actions">
+                    <button onclick="downloadQuestions()" class="action-btn">📥 تحميل PDF</button>
+                    <button onclick="printQuestions()" class="action-btn">🖨️ طباعة</button>
+                    <button onclick="copyQuestionsText()" class="action-btn">📋 نسخ النص</button>
+                    <button onclick="createNewQuestions()" class="action-btn primary">➕ أسئلة جديدة</button>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="qErrorSection" style="display:none;">
+                <div class="error-header">
+                    <h3>⚠️ تنبيه</h3>
+                    <button class="close-btn" onclick="closeQError()">✕</button>
+                </div>
+                <div id="qErrorContent" class="error-content">
+                    <!-- Error will be inserted here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🏫 منصة تعليمية متقدمة لإنشاء أسئلة تعليمية احترافية</p>
+            <p>© 2025 جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <script src="curriculum.json"></script>
+    <script src="questions-generator.js"></script>
+</body>
+</html>
