@@ -200,7 +200,8 @@ async function generateQuestions() {
     btnLoader.style.display = 'inline';
     
     try {
-        const response = await fetch('/api/generate-questions', {
+        const apiUrl = window.location.hostname === 'localhost' ? '/api/generate-questions' : '/.netlify/functions/api/generate-questions';
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

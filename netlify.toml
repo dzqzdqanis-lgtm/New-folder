@@ -3,16 +3,25 @@
   functions = "netlify/functions"
   publish = "public"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# API proxy
+# SPA routing - redirect all requests to index.html except API calls
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api:splat"
   status = 200
 
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 [context.production]
   environment = { NODE_ENV = "production" }
+
+# Headers for API responses
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+    Cache-Control = "no-cache"

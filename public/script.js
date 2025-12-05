@@ -175,7 +175,8 @@ async function submitQuestion() {
 
     try {
         // Send request to backend
-        const response = await fetch('/api/ask', {
+        const apiUrl = window.location.hostname === 'localhost' ? '/api/ask' : '/.netlify/functions/api/ask';
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -301,7 +302,8 @@ function newQuestion() {
 // API Health Check on page load
 window.addEventListener('load', async () => {
     try {
-        const response = await fetch('/api/health');
+        const apiUrl = window.location.hostname === 'localhost' ? '/api/health' : '/.netlify/functions/api/health';
+        const response = await fetch(apiUrl);
         if (!response.ok) {
             console.warn('Server health check failed');
         }
